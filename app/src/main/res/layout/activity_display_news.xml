@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DisplayNews">
+
+
+    <RelativeLayout
+        android:layout_width="398dp"
+        android:layout_height="586dp"
+        android:id="@+id/relativeLayout"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+
+        <Button
+            android:id="@+id/politicsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="117dp"
+            android:text="Politics"
+            android:onClick="selectPolitics"/>
+
+        <Button
+            android:id="@+id/ukButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/politicsButton"
+            android:layout_marginStart="49dp"
+            android:text="UK"
+            android:onClick="selectUK"/>
+
+        <Button
+            android:id="@+id/businessButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/politicsButton"
+            android:layout_marginEnd="46dp"
+            android:text="Business"
+            android:onClick="selectBusiness"/>
+
+        <Button
+            android:id="@+id/scienceButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/ukButton"
+            android:layout_marginBottom="46dp"
+            android:text="Science"
+            android:onClick="selectScience"/>
+
+        <Button
+            android:id="@+id/technologyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/scienceButton"
+            android:layout_centerHorizontal="true"
+            android:text="Tech"
+            android:onClick="selectTech"/>
+
+        <Button
+            android:id="@+id/healthButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/businessButton"
+            android:layout_alignTop="@+id/scienceButton"
+            android:text="Health"
+            android:onClick="selectHealth"/>
+
+        <TextView
+            android:id="@+id/newsView"
+            android:layout_width="316dp"
+            android:layout_height="346dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="37dp"
+            android:text="Choose a story..."/>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
