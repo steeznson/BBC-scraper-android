@@ -6,14 +6,26 @@ import android.view.View;
 import android.widget.TextView;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
 import java.io.IOException;
 
 public class DisplayNews extends AppCompatActivity {
 
-    // variables
-    String selection;
+    // global complex objects
+    DisplayNews display = new DisplayNews();
+    TextView viewNews = (TextView) findViewById (R.id.newsView);
+    HeadlineRegex headlineRegex = new HeadlineRegex();
+    SummaryRegex summaryRegex = new SummaryRegex();
+    DateRegex dateRegex = new DateRegex();
+    RegexVisitor visitor = new RegexVisitor();
 
+    // global variables
+    String selection;
+    String input;
+    String output;
+    String finalHOutput;
+    String finalSOutput;
+    String finalDOutput;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,22 +63,8 @@ public class DisplayNews extends AppCompatActivity {
         handleSelection(selection);
     }
 
-    public void handleSelection(String selection) {
-
-        // initialize complex objects
-        HeadlineRegex headlineRegex = new HeadlineRegex();
-        SummaryRegex summaryRegex = new SummaryRegex();
-        DateRegex dateRegex = new DateRegex();
-        RegexVisitor visitor = new RegexVisitor();
-        DisplayNews display = new DisplayNews();
-        TextView viewNews = (TextView) findViewById (R.id.newsView);
-
-
-        // initialize primitive objects
-        String finalHOutput;
-        String finalSOutput;
-        String finalDOutput;
-        String output;
+    // collect news story
+    public String handleSelection(String selection) {
 
         // create new object of Document class and scrape HTML to populate it
         Document doc = null;
@@ -78,9 +76,14 @@ public class DisplayNews extends AppCompatActivity {
 
         // send the HTML input to the visitor
         String input = doc.toString();
+	return input;
+    }
+
+    // extract output
+    public String prepareOutput(String input){
         visitor.setInput(input);
 
-        // visit the regular expression
+        // visit the regular expressions
         visitor.visit(headlineRegex);
         finalHOutput = visitor.getFinalHOutput();
         visitor.visit(summaryRegex);
@@ -91,11 +94,12 @@ public class DisplayNews extends AppCompatActivity {
 
         // get the output from the visitor
         output = visitor.getOutput();
-
-        // print it in the text output
-        viewNews.setText(output);
+	return output;
     }
 
-
+    // print output
+    public void printOutput(String output){
+        viewNews.setText(output);
+    }
 
 }
