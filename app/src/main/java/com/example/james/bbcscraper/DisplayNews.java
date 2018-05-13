@@ -11,8 +11,6 @@ import java.io.IOException;
 public class DisplayNews extends AppCompatActivity {
 
     // global complex objects
-    DisplayNews display = new DisplayNews();
-    TextView viewNews = (TextView) findViewById (R.id.newsView);
     HeadlineRegex headlineRegex = new HeadlineRegex();
     SummaryRegex summaryRegex = new SummaryRegex();
     DateRegex dateRegex = new DateRegex();
@@ -65,7 +63,7 @@ public class DisplayNews extends AppCompatActivity {
 
     // collect news story
     public String handleSelection(String selection) {
-
+        
         // create new object of Document class and scrape HTML to populate it
         Document doc = null;
         try {
@@ -76,7 +74,7 @@ public class DisplayNews extends AppCompatActivity {
 
         // send the HTML input to the visitor
         String input = doc.toString();
-	return input;
+	    return this.input;
     }
 
     // extract output
@@ -94,11 +92,14 @@ public class DisplayNews extends AppCompatActivity {
 
         // get the output from the visitor
         output = visitor.getOutput();
-	return output;
+	    return output;
     }
 
     // print output
     public void printOutput(String output){
+        // local complex object
+        TextView viewNews = (TextView) findViewById (R.id.newsView);
+
         viewNews.setText(output);
     }
 
