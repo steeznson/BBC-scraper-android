@@ -4,26 +4,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import java.io.IOException;
 
 public class DisplayNews extends AppCompatActivity {
-
-    // global complex objects
-    HeadlineRegex headlineRegex = new HeadlineRegex();
-    SummaryRegex summaryRegex = new SummaryRegex();
-    DateRegex dateRegex = new DateRegex();
-    RegexVisitor visitor = new RegexVisitor();
 
     // global variables
     String selection;
     String input;
-    String output;
-    String finalHOutput;
-    String finalSOutput;
-    String finalDOutput;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,23 +49,30 @@ public class DisplayNews extends AppCompatActivity {
     }
 
     // collect news story
-    public String handleSelection(String selection) {
-        
-        // create new object of Document class and scrape HTML to populate it
-        Document doc = null;
-        try {
-            doc = Jsoup.connect(selection).get();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
-        // send the HTML input to the visitor
-        String input = doc.toString();
-	    return this.input;
+    public void handleSelection(String selection) {
+        // create new handler for multi-thread network access
+        SelectionHandler handle = new SelectionHandler();
+        handle.setSelection(selection);
+        // download the html in a secondary thread
+        new Thread(handle).start();
+        input = handle.getInput();
+        printOutput(input);
     }
 
-    // extract output
-    public String prepareOutput(String input){
+    // extract and print output
+    public void printOutput(String input){
+        // complex objects
+        HeadlineRegex headlineRegex = new HeadlineRegex();
+        SummaryRegex summaryRegex = new SummaryRegex();
+        DateRegex dateRegex = new DateRegex();
+        RegexVisitor visitor = new RegexVisitor();
+
+        // primitive objects
+        String output;
+        String finalHOutput;
+        String finalSOutput;
+        String finalDOutput;
+
         visitor.setInput(input);
 
         // visit the regular expressions
@@ -92,15 +86,11 @@ public class DisplayNews extends AppCompatActivity {
 
         // get the output from the visitor
         output = visitor.getOutput();
-	    return output;
-    }
 
-    // print output
-    public void printOutput(String output){
-        // local complex object
+        // print output
         TextView viewNews = (TextView) findViewById (R.id.newsView);
-
         viewNews.setText(output);
     }
+
 
 }
