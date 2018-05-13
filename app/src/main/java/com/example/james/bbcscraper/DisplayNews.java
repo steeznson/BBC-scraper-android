@@ -5,9 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class DisplayNews extends AppCompatActivity {
 
-    // global variables
+    // global variable
     String selection;
     String input;
 
@@ -48,14 +54,18 @@ public class DisplayNews extends AppCompatActivity {
         handleSelection(selection);
     }
 
-    // collect news story
-    public void handleSelection(String selection) {
-        // create new handler for multi-thread network access
-        SelectionHandler handle = new SelectionHandler();
-        handle.setSelection(selection);
-        // download the html in a secondary thread
-        new Thread(handle).start();
-        input = handle.getInput();
+    // collect whole news story
+    public void handleSelection(String selection){
+
+        SelectionHandler handler = new SelectionHandler();
+        handler.setSelection(this.selection);
+
+        // download html on secondary thread
+        ExecutorService es = Executors.newSingleThreadExecutor();
+        Future<String> html = es.submit(handler);
+
+        // prepare and print input
+        input = html.toString();
         printOutput(input);
     }
 
