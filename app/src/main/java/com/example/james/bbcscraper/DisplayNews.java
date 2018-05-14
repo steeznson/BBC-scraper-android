@@ -62,10 +62,15 @@ public class DisplayNews extends AppCompatActivity {
 
         // download html on secondary thread
         ExecutorService es = Executors.newSingleThreadExecutor();
-        Future<String> html = es.submit(handler);
+        Future<String> html = es.submit(handler); // html is null
 
         // prepare and print input
-        input = html.toString();
+        try {
+            this.input = html.get();
+
+        }catch (Exception e){
+                e.printStackTrace();
+        }
         printOutput(input);
     }
 
